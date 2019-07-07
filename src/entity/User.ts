@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 import { ObjectType, Field, ID, Root } from 'type-graphql';
+import createJWT from '../utils/createJWT';
 
 @ObjectType()
 @Entity()
@@ -33,5 +34,10 @@ export class User extends BaseEntity {
 	@Field()
 	name(@Root() parent: User): string {
 		return `${parent.firstName} ${parent.lastName}`;
+	}
+	
+	@Field()
+	token(@Root() parent: User): string {
+		return `${createJWT(parent.id)} `;
 	}
 }
